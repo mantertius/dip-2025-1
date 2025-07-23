@@ -15,9 +15,14 @@ def generate_image(seed, width, height, mean, std):
     Returns:
         image (numpy.ndarray): The generated image.
     """
-    ### START CODE HERE ###
-    ### TODO
-    ### END CODE HERE ###
+
+    # cv2.namedWindow("Generated Image", cv2.WINDOW_KEEPRATIO)
+    np.random.seed(seed)
+    image = np.random.normal(mean, std, (height, width))
+    # print(image)
+    # cv2.imshow("Generated Image", image)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
     return image
 
 if __name__ == "__main__":
