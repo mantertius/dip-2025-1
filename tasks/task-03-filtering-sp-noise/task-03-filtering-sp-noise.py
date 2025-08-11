@@ -1,4 +1,4 @@
-import cv
+import cv2
 import numpy as np
 
 def remove_salt_and_pepper_noise(image: np.ndarray) -> np.ndarray:
@@ -12,9 +12,14 @@ def remove_salt_and_pepper_noise(image: np.ndarray) -> np.ndarray:
         np.ndarray: Denoised image.
     """
     # TODO: Implement noise removal here (e.g., median filtering)
-    return image  # Replace this with your filtering implementation
+
+    #as salt and pepper is a noise based on dark and brigth pixels, we can use a median filter.
+
+    image = cv2.medianBlur(image, 3)
+
+    return image
 
 if __name__ == "__main__":
-    noisy_image = cv.imread("noisy_image.png", cv.IMREAD_GRAYSCALE)
+    noisy_image = cv2.imread("noisy_image.png", cv2.IMREAD_GRAYSCALE)
     denoised_image = remove_salt_and_pepper_noise(noisy_image)
-    cv.imwrite("denoised_image.png", denoised_image)
+    cv2.imwrite("denoised_image.png", denoised_image)
