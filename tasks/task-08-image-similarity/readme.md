@@ -49,7 +49,7 @@ Where:
 
 ## 3. Structural Similarity Index (SSIM) — Simplified
 
-The **SSIM** measures structural similarity by comparing **luminance**, **contrast**, and **structure**.  
+The **SSIM** measures structural similarity by comparing **luminance**, **contrast**, and **structure**.
 A simplified global version can be computed using image means and variances:
 
 $$

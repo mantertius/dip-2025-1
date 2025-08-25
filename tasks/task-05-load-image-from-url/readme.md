@@ -1,6 +1,6 @@
 # Load and Display Image from URL (OpenCV)
 
-This exercise demonstrates how to **load an image directly from a URL** and display it using OpenCV.  
+This exercise demonstrates how to **load an image directly from a URL** and display it using OpenCV.
 You will complete the function `load_image_from_url` to fetch the image over the internet, decode it, and return it as a NumPy array.
 
 ---

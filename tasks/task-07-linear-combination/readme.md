@@ -1,6 +1,6 @@
 # Image Blending with Linear Combination (OpenCV)
 
-This exercise demonstrates how to blend two images using a **linear combination** of pixel values.  
+This exercise demonstrates how to blend two images using a **linear combination** of pixel values.
 You will implement the missing part of the function `linear_combination` and use an interactive trackbar to adjust the blending ratio (`alpha`) in real time.
 
 ---

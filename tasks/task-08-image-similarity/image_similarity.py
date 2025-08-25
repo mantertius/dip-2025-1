@@ -74,6 +74,7 @@ def compare_images(i1: np.ndarray, i2: np.ndarray) -> dict:
 
 # ----------------------------- Helpers --------------------------------- #
 
+
 def _validate_images(i1: np.ndarray, i2: np.ndarray) -> None:
     """
     Validate that both images are 2D ndarrays with identical shapes.
@@ -93,7 +94,9 @@ def _validate_images(i1: np.ndarray, i2: np.ndarray) -> None:
     if i1.ndim != 2 or i2.ndim != 2:
         raise ValueError("Inputs must be 2D arrays representing grayscale images.")
     if i1.shape != i2.shape:
-        raise ValueError(f"Images must have the same shape. Got {i1.shape} vs {i2.shape}.")
+        raise ValueError(
+            f"Images must have the same shape. Got {i1.shape} vs {i2.shape}."
+        )
 
 
 def _mse(i1: np.ndarray, i2: np.ndarray) -> float:
@@ -114,7 +117,7 @@ def _mse(i1: np.ndarray, i2: np.ndarray) -> float:
     """
     ### START CODE HERE ###
     ### TODO
-    mse = None
+    mse = np.mean((i1 - i2)**2)  # noqa
     ### END CODE HERE ###
 
     return mse
@@ -141,13 +144,16 @@ def _psnr(i1: np.ndarray, i2: np.ndarray, data_range: float = 1.0) -> float:
     """
     ### START CODE HERE ###
     ### TODO
-    psnr = None
+    psnr = (lambda m: np.inf if m == 0 else 10 * np.log10(data_range**2 / m))(_mse(i1, i2))
+
     ### END CODE HERE ###
 
     return psnr
 
 
-def _ssim(i1: np.ndarray, i2: np.ndarray, *, C1: float = 1e-8, C2: float = 1e-8) -> float:
+def _ssim(
+    i1: np.ndarray, i2: np.ndarray, *, C1: float = 1e-8, C2: float = 1e-8
+) -> float:
     """
     Simplified global Structural Similarity Index (SSIM).
 
@@ -170,8 +176,12 @@ def _ssim(i1: np.ndarray, i2: np.ndarray, *, C1: float = 1e-8, C2: float = 1e-8)
         SSIM in approximately [-1, 1] (often near [0, 1] for natural images).
     """
     ### START CODE HERE ###
-    ### TODO
-    ssim = None
+    mu1 = np.mean(i1)
+    mu2 = np.mean(i2)
+    sigma12 = np.cov(i1.flatten(), i2.flatten(), bias=True)[0, 1]
+    sigma1 = np.var(i1)
+    sigma2 = np.var(i2)
+    ssim = ((2*mu1*mu2 + C1)*(2*sigma12 + C2)) / ((mu1**2 + mu2**2 + C1)*(sigma1**2 + sigma2**2 + C2))
     ### END CODE HERE ###
 
     return ssim
@@ -200,7 +210,14 @@ def _npcc(i1: np.ndarray, i2: np.ndarray) -> float:
 
     ### START CODE HERE ###
     ### TODO
-    npcc = None
+    mu1 = np.mean(i1)
+    mu2 = np.mean(i2)
+    npcc = np.sum((i1 - mu1) * (i2 - mu2)) / np.sqrt(np.sum((i1 - mu1) ** 2) * np.sum((i2 - mu2) ** 2))
+    if np.isnan(npcc):
+        if np.all(i1 == i2):
+            npcc = 1.0
+        else:
+            npcc = 0.0
     ### END CODE HERE ###
 
     return npcc
@@ -210,10 +227,8 @@ def _npcc(i1: np.ndarray, i2: np.ndarray) -> float:
 
 if __name__ == "__main__":
     # Quick numeric check using the README's 2x2 example
-    i1 = np.array([[0.0, 0.5],
-                   [0.5, 1.0]], dtype=np.float64)
-    i2 = np.array([[0.0, 0.4],
-                   [0.6, 1.0]], dtype=np.float64)
+    i1 = np.array([[0.0, 0.5], [0.5, 1.0]], dtype=np.float64)
+    i2 = np.array([[0.0, 0.4], [0.6, 1.0]], dtype=np.float64)
 
     out = compare_images(i1, i2)
     # Rounded print

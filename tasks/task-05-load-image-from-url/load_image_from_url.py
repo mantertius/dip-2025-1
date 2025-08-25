@@ -34,8 +34,10 @@ def load_image_from_url(url: str, flags: int = cv.IMREAD_COLOR) -> np.ndarray:
     """
     try:
         ### START CODE HERE ###
-        ### TODO
-        image = None
+        # Step 1: Download the image data from the URL
+        with urllib.request.urlopen(url) as response:
+            image_data = response.read()
+        image = cv.imdecode(np.frombuffer(image_data, np.uint8), flags)
         ### END CODE HERE ###
 
         return image

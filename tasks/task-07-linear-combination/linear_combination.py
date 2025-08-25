@@ -24,9 +24,10 @@ def linear_combination(i1: np.ndarray, i2: np.ndarray, a1: float, a2: float) -> 
 
     ### START CODE HERE ###
     ### TODO
-    i_out = None
-    ### END CODE HERE ###
+    i_out = cv.addWeighted(i1, a1, i2, a2, 0)
 
+    ### END CODE HERE ###
+    print(f'OUT:{i_out[0][0]} \t i1={i1[0][0]} | a1 = {a1} \t i2 = {i2[0][0]} | a2 = {a2}')
     return i_out
 
 
